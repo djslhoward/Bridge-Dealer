@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en" data-ng-app="app" data-ng-controller="dealer">
+	<head>
+		<meta charset="UTF-8">	
+		<title>Bridge Hand Automatic Dealer</title>
+		
+		<!-- my styles -->
+		<link rel="stylesheet" href="Styles/main.css">	
+		
+		<!-- vendor libraries -->
+		<script src="Scripts/angular.min.js"></script>
+		
+		<!-- app -->
+		<script src="App/app.module.js"></script>
+			
+		<!-- bridge dealer -->
+		<script src="App/dealer.js"></script>
+		<script src="App/card.service.js"></script>
+		<script src="App/deck.service.js"></script>
+		<script src="App/hand.service.js"></script>
+	</head>
+
+	<body>
+		<div id="North">{{North}}</div>
+		<br />
+		<div id="West">{{West}}</div>
+		<br />
+		<div id="East">{{East}}</div>
+		<br />
+		<div id="South">{{South}}</div>
+		<br />
+		<input type="button" value="Deal hand" />
+	</body>
+</html>
