@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" data-ng-app="app" data-ng-controller="dealer">
+<html lang="en" data-ng-app="app">
 	<head>
 		<meta charset="UTF-8">	
 		<title>Bridge Hand Automatic Dealer</title>
@@ -20,15 +20,32 @@
 		<script src="App/hand.service.js"></script>
 	</head>
 
-	<body>
-		<div id="North">{{North}}</div>
-		<br />
-		<div id="West">{{West}}</div>
-		<br />
-		<div id="East">{{East}}</div>
-		<br />
-		<div id="South">{{South}}</div>
-		<br />
-		<input type="button" value="Deal hand" />
+	<body data-ng-controller="dealer as vm">
+		<div data-ng-repeat="position in vm.positions">
+			<div class="{{position.pos}}">
+				<div>
+					<span class="Spades">&spades;</span>
+					<span data-ng-repeat="card in position.hand.suits.Spades">{{card.rank}}</span>
+				</div>		
+				<div>
+					<span class="Hearts">&hearts;</span>
+					<span data-ng-repeat="card in position.hand.suits.Hearts">{{card.rank}}</span>
+				</div>		
+				<div>
+					<span class="Diamonds">&diams;</span>
+					<span data-ng-repeat="card in position.hand.suits.Diamonds">{{card.rank}}</span>
+				</div>		
+				<div>
+					<span class="Clubs">&clubs;</span>
+					<span data-ng-repeat="card in position.hand.suits.Clubs">{{card.rank}}</span>
+				</div>						
+			</div>
+		</div>
+		
+	<!--<button ng-click="vm.dealCards()">Deal Hand</button>
+	<a href="file://iplbath.com/FILES/USERS/daniel.stlegerhoward/My%20Documents/GitHub/Bridge-Dealer/printable.html"><button>Generate Hands</button></a>
+	Point range: <input type="number" min="0" max="40" data-ng-model="vm.minPoints"> - <input type="number" min="0" max="40" data-ng-model="vm.maxPoints">
+	Longest suit length: <input type="number" min="4" max="13" data-ng-model="vm.firstSuitLength">
+	Second longest suit length: <input type="number" min="0" max="6" data-ng-model="vm.secondSuitLength"> -->
 	</body>
 </html>

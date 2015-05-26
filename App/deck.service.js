@@ -39,16 +39,26 @@
 				this.cards = shuffled;
 			}
 								
-			function deal() {
+			function deal(hand) {
 				var deck = this;
 				var north = new hand.Hand(deck);
-				deck.cards.slice(13);
+				north.arrange();
+				deck.cards = deck.cards.slice(13);
 				var south = new hand.Hand(deck);
-				deck.cards.slice(13);
+				south.arrange();
+				deck.cards = deck.cards.slice(13);
 				var east = new hand.Hand(deck);
-				deck.cards.slice(13);
+				east.arrange();
+				deck.cards = deck.cards.slice(13);
 				var west = new hand.Hand(deck);
-				return { north, south, east, west };
+				west.arrange();
+				
+				return { 
+					'north' : north, 
+					'south' : south, 
+					'east'  : east, 
+					'west'  : west 
+				};
 			}
         }
     }

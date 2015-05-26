@@ -5,7 +5,7 @@ describe('Deck Factory', function() {
 	beforeEach(function (){			
 		module('app', function($provide) {		
 			handService = {};
-			handService.Hand = jasmine.createSpy().and.returnValue({cards: [16, 34, 18, 44, 48, 46, 7, 45, 2, 13, 5, 10, 22]});
+			handService.Hand = jasmine.createSpy().and.returnValue({cards: [16, 34, 18, 44, 48, 46, 7, 45, 2, 13, 5, 10, 22], arrange: jasmine.createSpy()});
 					
 			$provide.value('hand', handService);
 		});
@@ -45,13 +45,21 @@ describe('Deck Factory', function() {
 		});
 		
 		describe('deal function', function() {
+			var hands;
+			
+			beforeEach(function() {
+				hands = deck.deal(handService);	
+			});
+		
 			it('should deal four hands of thirteen cards', function() {				
-				var hands = deck.deal();	
-				
-				expect(hands.north.length).toBe(13);
-				expect(hands.south.length).toBe(13);
-				expect(hands.east.length).toBe(13);
-				expect(hands.west.length).toBe(13);
+				expect(hands.north.cards.length).toBe(13);
+				expect(hands.south.cards.length).toBe(13);
+				expect(hands.east.cards.length).toBe(13);
+				expect(hands.west.cards.length).toBe(13);
+			});
+			
+			it('should arrange each hand', function() {
+				expect(handService.Hand().arrange.calls.count()).toBe(4);			
 			});
 		});
 	});

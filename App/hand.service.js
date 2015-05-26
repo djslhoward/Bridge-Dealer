@@ -13,17 +13,19 @@
         var service = {
             Hand: Hand
         };
-
+		
         return service;
 		
         function Hand(deck) {
             this.cards = deck.cards.slice(0, 13);
             this.suits = {};
+			this.points;
 			this.arrange = arrange;
 					
 			function arrange() {
 				sort(this.cards);
 				var converted = convert(this.cards);
+				this.points = getPoints(converted);
 				sortIntoSuits(converted, this.suits);
 			}
 			
@@ -39,6 +41,14 @@
 					suits.push(new card.Card(cards[i]));
 				}
 				return suits;
+			}
+			
+			function getPoints(suits) {
+				var points = 0;
+				for(var i = 0; i < 13; i++) {
+					points += suits[i].points;
+				}
+				return points;
 			}
 			
 			function sortIntoSuits(cards, suits) {

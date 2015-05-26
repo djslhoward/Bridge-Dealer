@@ -33,23 +33,22 @@
 			
 				suit = suits[Math.ceil(rank / 13) - 1];
 				rank = rank % 13;								
-				if (rank < 2 || rank > 10)  {
-					switch (rank) {
-						case 11:
-							rank = 'J';
-							break;
-						case 12:
-							rank = 'Q';
-							break;
-						case 0:
-							rank = 'K';
-							break;
-						case 1:
-							rank = 'A';
-							break;
-						default:
-							break;
-					}
+				switch (rank) {
+					case 10:
+						rank = 'J';
+						break;
+					case 11:
+						rank = 'Q';
+						break;
+					case 12:
+						rank = 'K';
+						break;
+					case 0:
+						rank = 'A';
+						break;
+					default:
+						rank += 1;
+						break;
 				}				
 			} else { 
 				if(isNaN(rank)) {
@@ -68,8 +67,28 @@
 				}
 			}
 			
+			var points;
+			switch (rank) {
+				case 'J':
+					points = 1;
+					break;
+				case 'Q':
+					points = 2;
+					break;
+				case 'K':
+					points = 3;
+					break;
+				case 'A':
+					points = 4;
+					break;
+				default:
+					points = 0;
+					break;
+			}
+			
 			this.rank = rank;
 			this.suit = suit;
+			this.points = points;
 		}			
     }
 })();

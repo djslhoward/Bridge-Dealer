@@ -1,0 +1,41 @@
+a {
+	text-decoration: none;
+}
+
+.Spades {
+	color: black;
+} 
+
+.Hearts {
+	color: red;
+} 
+
+.Diamonds {
+	color: orange;
+} 
+
+.Clubs {
+	color: grey;
+} 
+
+.North, .South, .East, .West {
+	position: absolute
+}
+
+.North {
+	left: 100px;
+}
+
+.South {
+	top: 200px;
+	left: 100px;
+}
+
+.East {
+	top: 100px;
+	left: 200px;
+}
+
+.West {
+	top: 100px;
+}

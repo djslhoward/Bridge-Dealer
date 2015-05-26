@@ -77,11 +77,11 @@ describe('Card Factory', function() {
 		
 		it('should generate from the numbers 1-52', function() {
 			card = new cardService.Card(39);
-			expect(card.rank).toBe('K');
+			expect(card.rank).toBe('A');
 			expect(card.suit).toBe('Hearts');
 			
 			card = new cardService.Card(1);
-			expect(card.rank).toBe('A');
+			expect(card.rank).toBe(2);
 			expect(card.suit).toBe('Clubs');
 		});
 		
@@ -121,6 +121,21 @@ describe('Card Factory', function() {
 				return new cardService.Card(101);
 			};
 			expect(outOfRange).toThrow();
+		});
+		
+		it('should have the right number of High Card Points: 1 for a Jack, 2 for a Queen, 3 for a King and 4 for an Ace', function() {
+			expect(card.points).toBe(0);
+			
+			expect(honour.points).toBe(1);
+			
+			honour = new cardService.Card(24);
+			expect(honour.points).toBe(2);
+			
+			honour = new cardService.Card('K', 'Diamonds');
+			expect(honour.points).toBe(3);
+			
+			honour = new cardService.Card(13);
+			expect(honour.points).toBe(4);
 		});
 	});
 });

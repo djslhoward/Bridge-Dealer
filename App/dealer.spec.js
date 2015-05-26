@@ -5,7 +5,7 @@ describe('Dealer Controller', function() {
 	beforeEach(function() {
 		module('app', function ($provide) {
 			var suits = ['Clubs', 'Diamonds', 'Hearts', 'Spades'];
-			
+					
 			cardService = {};
 			cardService.Card = jasmine.createSpy().and.callFake(function(number) {
 				var object = {
@@ -22,12 +22,49 @@ describe('Dealer Controller', function() {
 			    32, 50, 49, 30, 47, 43, 29, 6, 39, 35, 1, 4, 14,
 			    33, 42, 9, 26, 12, 31, 41, 3, 23, 38, 17, 21, 11],
 				shuffle: jasmine.createSpy(),
-				deal: jasmine.createSpy().and.returnValue({ north: {cards: []}, south : {cards: []}, east : {cards: []}, west: {cards: []} })
+				deal: jasmine.createSpy().and.returnValue({
+					north: {
+						suits: {
+							Spades: [],
+							Hearts: [],
+							Diamonds: [],
+							Clubs: []
+						},
+						cards: [16, 34, 18, 44, 48, 46, 7, 45, 2, 13, 5, 10, 22],
+					},
+					south: {
+						suits: {
+							Spades: [],
+							Hearts: [],
+							Diamonds: [],
+							Clubs: []
+						},
+						cards: [28, 25, 20, 51, 52, 8, 37, 24, 19, 27, 36, 15, 40],
+					},
+					east: {
+						suits: {
+							Spades: [],
+							Hearts: [],
+							Diamonds: [],
+							Clubs: []
+						},
+						cards: [32, 50, 49, 30, 47, 43, 29, 6, 39, 35, 1, 4, 14],
+					},
+					west: {
+						suits: {
+							Spades: [],
+							Hearts: [],
+							Diamonds: [],
+							Clubs: []
+						},
+						cards: [33, 42, 9, 26, 12, 31, 41, 3, 23, 38, 17, 21, 11],
+					}
+				})
 			});
 			
 			handService = {};
 			handService.Hand = jasmine.createSpy().and.returnValue({
-			    cards: [16, 34, 18, 44, 48, 46, 7, 45, 2, 13, 5, 10, 22]
+			    cards: [16, 34, 18, 44, 48, 46, 7, 45, 2, 13, 5, 10, 22],
 			});
 			
 			$provide.value('card', cardService);
@@ -60,10 +97,10 @@ describe('Dealer Controller', function() {
 	});
 	
 	it('should create four hands and assign them to the scope', function () {
-		expect(ctrl.North.cards.length).toBeDefined();
-		expect(ctrl.South.cards.length).toBeDefined();
-		expect(ctrl.East.cards.length).toBeDefined();
-		expect(ctrl.West.cards.length).toBeDefined();
+		expect(ctrl.positions.North).toBeDefined();
+		expect(ctrl.positions.South).toBeDefined();
+		expect(ctrl.positions.East).toBeDefined();
+		expect(ctrl.positions.West).toBeDefined();
     });
 });
 
