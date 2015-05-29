@@ -31,6 +31,7 @@ describe('Dealer Controller', function() {
 			    32, 50, 49, 30, 47, 43, 29, 6, 39, 35, 1, 4, 14,
 			    33, 42, 9, 26, 12, 31, 41, 3, 23, 38, 17, 21, 11],
 				shuffle: jasmine.createSpy(),
+				stack: jasmine.createSpy(),
 				deal: jasmine.createSpy().and.returnValue({
 					north: {
 						suits: {
@@ -110,10 +111,18 @@ describe('Dealer Controller', function() {
 			expect(dataService.set).toHaveBeenCalled();
 		});
 	});
+			
+	it('should get data from the data service', function() {
+		expect(dataService.get).toHaveBeenCalled();
+	});	
 	
 	it('should shuffle the deck', function() {
 		expect(deckService.Deck().shuffle).toHaveBeenCalled();
 	});
+	
+	it('should stack the deck', function() {
+		expect(deckService.Deck().stack).toHaveBeenCalledWith(dataService.get());
+	});	
 	
 	it('should deal the cards', function() {
 		expect(deckService.Deck().deal).toHaveBeenCalled();
@@ -125,9 +134,5 @@ describe('Dealer Controller', function() {
 		expect(ctrl.positions.East).toBeDefined();
 		expect(ctrl.positions.West).toBeDefined();
     });
-	
-	it('should get data from the data service', function() {
-		expect(dataService.get).toHaveBeenCalled();
-	});	
 });
 

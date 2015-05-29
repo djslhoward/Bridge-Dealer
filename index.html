@@ -4,45 +4,49 @@
 		<meta charset="UTF-8">	
 		<title>Bridge Hand Automatic Dealer</title>
 		
+		<script type="text/ng-template" id="hands.html"> 
+			<div id="hands" class="{{position.pos}}" data-ng-repeat="position in vm.positions">
+				<div>
+					<span class="Spades">&spades;</span>
+					<span data-ng-if="position.hand.suits.Spades.length > 0" data-ng-repeat="card in position.hand.suits.Spades">{{card.rank}}</span>
+					<span data-ng-if="position.hand.suits.Spades.length === 0">-</span>
+				</div>		
+				<div>
+					<span class="Hearts">&hearts;</span>
+					<span data-ng-if="position.hand.suits.Hearts.length > 0" data-ng-repeat="card in position.hand.suits.Hearts">{{card.rank}}</span>
+					<span data-ng-if="position.hand.suits.Hearts.length === 0">-</span>
+				</div>		
+				<div>
+					<span class="Diamonds">&diams;</span>
+					<span data-ng-if="position.hand.suits.Diamonds.length > 0" data-ng-repeat="card in position.hand.suits.Diamonds">{{card.rank}}</span>
+					<span data-ng-if="position.hand.suits.Diamonds.length === 0">-</span>
+				</div>		
+				<div>
+					<span class="Clubs">&clubs;</span>
+					<span data-ng-if="position.hand.suits.Clubs.length > 0" data-ng-repeat="card in position.hand.suits.Clubs">{{card.rank}}</span>
+					<span data-ng-if="position.hand.suits.Clubs.length === 0">-</span>				
+				</div>				
+			</div>
+			<div id="points">
+				<div class="pointsNorth">
+					{{vm.positions.North.hand.points}}
+				</div>
+				<div>
+					<span class="pointsWest">{{vm.positions.West.hand.points}}</span>
+					<span class="pointsEast">{{vm.positions.East.hand.points}}</span>
+				</div>
+				<div class="pointsSouth">
+					{{vm.positions.South.hand.points}}
+				</div>
+			</div>	
+		</script>
+		
 		<script type="text/ng-template" id="table.html">
-			<div id="view" data-ng-controller="dealer as vm" data-ng-cloak="">
-				<div id="hands" class="{{position.pos}}" data-ng-repeat="position in vm.positions">
-					<div>
-						<span class="Spades">&spades;</span>
-						<span data-ng-if="position.hand.suits.Spades.length > 0" data-ng-repeat="card in position.hand.suits.Spades">{{card.rank}}</span>
-						<span data-ng-if="position.hand.suits.Spades.length === 0">-</span>
-					</div>		
-					<div>
-						<span class="Hearts">&hearts;</span>
-						<span data-ng-if="position.hand.suits.Hearts.length > 0" data-ng-repeat="card in position.hand.suits.Hearts">{{card.rank}}</span>
-						<span data-ng-if="position.hand.suits.Hearts.length === 0">-</span>
-					</div>		
-					<div>
-						<span class="Diamonds">&diams;</span>
-						<span data-ng-if="position.hand.suits.Diamonds.length > 0" data-ng-repeat="card in position.hand.suits.Diamonds">{{card.rank}}</span>
-						<span data-ng-if="position.hand.suits.Diamonds.length === 0">-</span>
-					</div>		
-					<div>
-						<span class="Clubs">&clubs;</span>
-						<span data-ng-if="position.hand.suits.Clubs.length > 0" data-ng-repeat="card in position.hand.suits.Clubs">{{card.rank}}</span>
-						<span data-ng-if="position.hand.suits.Clubs.length === 0">-</span>				
-					</div>				
-				</div>
-				<div id="points">
-					<div class="pointsNorth">
-						{{vm.positions.North.hand.points}}
-					</div>
-					<div>
-						<span class="pointsWest">{{vm.positions.West.hand.points}}</span>
-						<span class="pointsEast">{{vm.positions.East.hand.points}}</span>
-					</div>
-					<div class="pointsSouth">
-						{{vm.positions.South.hand.points}}
-					</div>
-				</div>
+			<div id="view" data-ng-controller="dealer as vm">
+				<div ng-include="'hands.html'" data-ng-cloak></div>
 				<div id="input">	
 					<div>
-						<button data-ng-click="vm.saveData(); vm.dealCards()">Deal Hand</button>
+						<button data-ng-click="vm.saveData(); vm.dealCards()">Deal Hand</button> 
 						<a href="#printable"><button data-ng-click="vm.saveData()">Generate Hands</button></a>
 					</div>	
 					<div>
@@ -51,49 +55,13 @@
 					<div>
 						Longest suit length: <input type="number" min="4" max="13" data-ng-model="vm.firstSuitLength">
 					</div>		
-					<div>
-						Second longest suit length: <input type="number" min="0" max="6" data-ng-model="vm.secondSuitLength">
-					</div>
 				</div>
 			</div>
 		</script>
 	
 		<script type="text/ng-template" id="printable.html">
-			<div id="view" class="bordered" data-ng-repeat="i in [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20]" data-ng-controller="dealer as vm" data-ng-cloak>
-				<div id="hands" class="{{position.pos}}" data-ng-repeat="position in vm.positions">
-					<div>
-						<span class="Spades">&spades;</span>
-						<span data-ng-if="position.hand.suits.Spades.length > 0" data-ng-repeat="card in position.hand.suits.Spades">{{card.rank}}</span>
-						<span data-ng-if="position.hand.suits.Spades.length === 0">-</span>
-					</div>		
-					<div>
-						<span class="Hearts">&hearts;</span>
-						<span data-ng-if="position.hand.suits.Hearts.length > 0" data-ng-repeat="card in position.hand.suits.Hearts">{{card.rank}}</span>
-						<span data-ng-if="position.hand.suits.Hearts.length === 0">-</span>
-					</div>		
-					<div>
-						<span class="Diamonds">&diams;</span>
-						<span data-ng-if="position.hand.suits.Diamonds.length > 0" data-ng-repeat="card in position.hand.suits.Diamonds">{{card.rank}}</span>
-						<span data-ng-if="position.hand.suits.Diamonds.length === 0">-</span>
-					</div>		
-					<div>
-						<span class="Clubs">&clubs;</span>
-						<span data-ng-if="position.hand.suits.Clubs.length > 0" data-ng-repeat="card in position.hand.suits.Clubs">{{card.rank}}</span>
-						<span data-ng-if="position.hand.suits.Clubs.length === 0">-</span>				
-					</div>				
-				</div>
-				<div id="points">
-					<div class="pointsNorth">
-						{{vm.positions.North.hand.points}}
-					</div>
-					<div>
-						<span class="pointsWest">{{vm.positions.West.hand.points}}</span>
-						<span class="pointsEast">{{vm.positions.East.hand.points}}</span>
-					</div>
-					<div class="pointsSouth">
-						{{vm.positions.South.hand.points}}
-					</div>
-				</div>
+			<div id="view" class="bordered" data-ng-repeat="i in [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26]" data-ng-controller="dealer as vm" data-ng-cloak>
+				<div ng-include="'hands.html'" data-ng-cloak></div>
 			</div>
 		</script>	
 	</head>
@@ -110,7 +78,8 @@
 
 		<!-- app -->
 		<script src="App/app.module.js"></script>
-			
+		<script src="App/routes.config.js"></script>
+		
 		<!-- bridge dealer -->
 		<script src="App/dealer.js"></script>
 		<script src="App/card.service.js"></script>

@@ -20,15 +20,15 @@
 			
 			if (typeof suit === 'undefined') {
 				if(isNaN(rank)) {
-					throw 'no such card exists';
+					throw 'Input must be a number';
 				}
 			
 				if (Math.floor(rank) !== Math.ceil(rank)) {
-					throw 'no such card exists';
+					throw 'Input must be an integer';
 				}
 			
 				if (rank < 1 || rank > 52) {
-					throw 'no such card exists';
+					throw 'Input must be between 1 and 52';
 				}
 			
 				suit = suits[Math.ceil(rank / 13) - 1];
@@ -53,17 +53,17 @@
 			} else { 
 				if(isNaN(rank)) {
 					if (rank !== 'J' && rank !== 'Q' && rank !== 'K' && rank !== 'A') {
-						throw 'no such rank exists';
+						throw 'Rank must be a number or an honour';
 					}
 				} else if (Math.floor(rank) !== Math.ceil(rank)) {
-					throw 'no such rank exists';
+					throw 'Rank must be an integer or an honour';
 				}
 			
 				if (rank < 2 || rank > 10) {
-					throw 'no such rank exists';
+					throw 'Rank must be either an honour or between 2 and 10';
 				} 
 				if (suits.indexOf(suit) === -1) {
-					throw 'no such suit exists';
+					throw 'Suit does not exist';
 				}
 			}
 			
