@@ -1,6 +1,6 @@
 describe('Dealer Controller', function() {
 	'use strict';
-	var ctrl, scope, createController, cardService, deckService, handService;
+	var ctrl, scope, createController, cardService, dataService, deckService, handService;
 	
 	beforeEach(function() {
 		module('app', function ($provide) {
@@ -15,6 +15,15 @@ describe('Dealer Controller', function() {
 				return object;
 			});
 			
+			dataService = {};
+			dataService.set = jasmine.createSpy();
+			dataService.get = jasmine.createSpy().and.returnValue({
+				min: 5,
+				max: 9,
+				firstSuitLength: 5,
+				secondSuitLength: 4
+			});	
+			
 			deckService = {};
 			deckService.Deck = jasmine.createSpy().and.returnValue({
 			    cards: [16, 34, 18, 44, 48, 46, 7, 45, 2, 13, 5, 10, 22,
@@ -25,12 +34,13 @@ describe('Dealer Controller', function() {
 				deal: jasmine.createSpy().and.returnValue({
 					north: {
 						suits: {
-							Spades: [],
-							Hearts: [],
-							Diamonds: [],
-							Clubs: []
+							Spades: [48, 46, 45, 44],
+							Hearts: [34],
+							Diamonds: [22, 18, 16],
+							Clubs: [13, 10, 7, 5, 2]
 						},
 						cards: [16, 34, 18, 44, 48, 46, 7, 45, 2, 13, 5, 10, 22],
+						points: 5
 					},
 					south: {
 						suits: {
@@ -68,6 +78,7 @@ describe('Dealer Controller', function() {
 			});
 			
 			$provide.value('card', cardService);
+			$provide.value('data', dataService);
 			$provide.value('deck', deckService);
 			$provide.value('hand', handService);
 		});
@@ -78,6 +89,7 @@ describe('Dealer Controller', function() {
 				return $controller('dealer', {
 					$scope: scope,
 					card: cardService,
+					data: dataService,
 					deck: deckService,
 					hand: handService
 				});
@@ -86,6 +98,17 @@ describe('Dealer Controller', function() {
 		
 		ctrl = createController();
 		scope.$digest();
+	});
+	
+	it('should assign a save function to the scope', function() {
+		expect(ctrl.saveData).toBeDefined();
+	});
+	
+	describe('save function', function() {
+		it('should save using the data service', function() {
+			ctrl.saveData();
+			expect(dataService.set).toHaveBeenCalled();
+		});
 	});
 	
 	it('should shuffle the deck', function() {
@@ -102,5 +125,9 @@ describe('Dealer Controller', function() {
 		expect(ctrl.positions.East).toBeDefined();
 		expect(ctrl.positions.West).toBeDefined();
     });
+	
+	it('should get data from the data service', function() {
+		expect(dataService.get).toHaveBeenCalled();
+	});	
 });
 
