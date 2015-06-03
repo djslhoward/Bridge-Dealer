@@ -25,8 +25,8 @@
 			var inputs = {
 				min: vm.minPoints || 0,
 				max: vm.maxPoints || 37,
-				firstSuitLength: vm.firstSuitLength,
-			}	
+				firstSuitLength: vm.firstSuitLength
+			};	
 			data.set(inputs);
 		}
 				
@@ -43,7 +43,7 @@
 				'South' : { hand: hands.south, pos: 'South'},
 				'East'  : { hand: hands.east, pos: 'East'},
 				'West'  : { hand: hands.west, pos: 'West'}
-			}
+			};
 			
 			var north = vm.positions.North.hand;		
 			

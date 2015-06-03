@@ -17,22 +17,26 @@
         return service;
 			
         function Deck(hand) {
-			this.cards = [];
+			this.cards = buildDeck();
 			this.shuffle = shuffle;
 			this.stack = stack;
 			this.deal = deal;
 			
-			for (var i = 1; i <= 52; i++) 
-			{
-				this.cards.push(i);
+			function buildDeck() {
+				var cards = [];	
+				for (var i = 1; i <= 52; i++) {
+					cards.push(i);
+				}
+				return cards;
 			}
 			
 			function shuffle() {
 				var deck = this;
 				var shuffled = [];
-
-				for (var i = 0; i < 52; i++) {
-					var randomNumber = Math.floor((Math.random() * (52 - i)));
+				var length = deck.cards.length;
+				
+				for (var i = 0; i < length; i++) {
+					var randomNumber = Math.floor(Math.random() * (length - i));
 
 					shuffled[i] = deck.cards[randomNumber];
 					deck.cards.splice(randomNumber, 1);
@@ -43,68 +47,117 @@
 			
 			function stack(inputs) {
 				var deck = this;
-			
-				var min = inputs.min;
-				var max = inputs.max;
+				
+				var min = inputs.min || 0;
+				var max = inputs.max || 37;
 				var length = inputs.firstSuitLength;
-										
-				if (length >= 4 && length <= 13) {	
-					var suit = pickSuit();
+				
+				var stacked = [];
+				var	unstacked = [];
+				var	points = 0;
+				var	shape = [0, 0, 0, 0];
+				
+				var suit = getSuitCards();			
+				var honours = getHonourCards();
+				var any = buildDeck();
+				
+				validLength() ? drawLongestSuit() :	length = 13;
+				validPointRange() ?	drawMinPoints() : null;
+								
+				if (deckIsStacked()) {
+					drawRestOfHand();	
+				
+					unstacked = getRemainingCards();
 					
-					var stacked = suit.drawSuit(length);
-					var remainder = suit.drawRemainder(stacked, deck);
-					
-					deck.cards = stacked.concat(remainder); 
-				}
-			}
-			
-			function pickSuit() {
-				var randomSuit = Math.floor((Math.random() * 4));
-				var suitArray = [1,2,3,4,5,6,7,8,9,10,11,12,13];
-				for (var i = 0; i < 13; i++) {
-					suitArray[i] += randomSuit * 13;
-				}
-				return { id: randomSuit, cards: suitArray, drawSuit: drawSuit, drawRemainder: drawRemainder };
-			}
-			
-			function drawSuit(length) {
-				var suit = this;
-				var hand = [];				
-				for (var j = 0; j < length; j++) {
-					var randomNumber = Math.floor(Math.random() * (13 - j));
-					hand[j] = suit.cards[randomNumber];		
-					suit.cards.splice(randomNumber, 1);
-				}
-				return hand;
-			}
-			
-			function drawRemainder(stacked, deck) {
-				var drawnSuit = this;
-				var suits = [0, 0, 0, 0];					
-				var length = stacked.length;
-				var remainder = [];
-
-				for (var k = 0; k < 52; k++) {
-					var card = deck.cards[k];
-					if (stacked.indexOf(card) < 0) {
-						var suit = getSuit(card);
-						if (suit !== drawnSuit.id && stacked.length < 13) {			
-							if (suits[suit] < length) {
-								stacked.push(card);
-								suits[suit]++;
-							} 		
-						} 
-						remainder.push(card);
-					} 
+					deck.cards = unstacked;
+					deck.shuffle();
+					deck.cards = stacked.concat(deck.cards);						
+				}	
+				
+				function getSuitCards() {
+					var suit = Math.floor(Math.random() * 4);
+					var cards = [];
+					for (var i = 1; i <= 52; i++) {
+						if (getSuit(i) === suit) {
+							cards.push(i);
+						}
+					}
+					return cards;
 				}
 				
-				return remainder;
-			}
-			
-			function getSuit(number) {
-				return Math.ceil(number / 13) - 1;
-			}
-										
+				function getSuit(number) {
+					return Math.ceil(number / 13) - 1;
+				}
+				
+				function getHonourCards() {
+					var cards = [];
+					for (var i = 1; i <= 52; i++) {
+						if (getPoints(i) > 0) {
+							cards.push(i);
+						}
+					}
+					return cards;
+				}
+															
+				function getPoints(number) {
+					var rank = number % 13;
+					var points = (rank === 0) ? 4 : Math.max(rank - 9, 0);
+					return points;
+				}		
+				
+				function validLength() {
+					return length >= 4 && length <= 13;
+				}	
+				
+				function drawLongestSuit() {
+					while (stacked.length < length) {									
+						drawCard(suit);
+					}	
+				}
+
+				function validPointRange() {
+					return min > 0 || max < 37;
+				}
+				
+				function drawMinPoints() {
+					while (points < min && stacked.length < 13) {
+						drawCard(honours);
+					}
+				}
+				
+				function deckIsStacked() {
+					return stacked.length > 0 || max < 37;
+				}
+				
+				function drawRestOfHand() {
+					while (stacked.length < 13) {						
+						drawCard(any);
+					} 	
+				}
+				
+				function drawCard(array) {
+					var number = Math.floor(Math.random() * array.length);
+					var card = array[number];
+					if (points + getPoints(card) <= max && stacked.indexOf(card) < 0 && shape[getSuit(card)] < length) {		
+						stacked.push(card);
+						points+= getPoints(card);
+						shape[getSuit(card)]++;					
+					}
+					array.splice(number, 1);	
+					return array;
+				}	
+
+				function getRemainingCards() {
+					var cards = [];
+					for (var k = 1; k <= 52; k++) {
+						if (stacked.indexOf(k) < 0) {
+							cards.push(k);
+						}
+					}
+					return cards;
+				}				
+			}			
+													
 			function deal(hand) {
 				var deck = this;
 				

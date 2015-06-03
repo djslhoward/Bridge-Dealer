@@ -37,6 +37,131 @@ describe('Deck Factory', function() {
 				deck.shuffle();
 				
 				expect(deck.cards).not.toEqual(unshuffled);
+				expect(deck.cards.length).toBe(52);
+			});
+		});
+		
+		it('should have a stack function', function() {
+			expect(deck.stack).toBeDefined();
+		});
+		
+		describe('stack function', function() {
+			var unstacked, getPoints, getSuitLength;
+			
+			beforeEach(function() {
+				unstacked = deck.cards;
+				
+				getPoints = function() {
+					var points = 0;
+					for (var i = 0; i < 13; i++) {
+						var card = deck.cards[i];
+						var rank = card % 13;
+						switch (rank) {
+							case 10:
+								points++;
+								break;
+							case 11:
+								points += 2;
+								break;
+							case 12:
+								points += 3;
+								break;
+							case 0:
+								points += 4;
+								break;
+						}
+					}
+					return points;
+				}
+				
+				getSuitLength = function() {
+					var suits = [0, 0, 0, 0];				
+					for (var i = 0; i < 13; i++) {
+						var card = deck.cards[i];
+						var suit = Math.ceil(card / 13) - 1;
+						suits[suit]++;
+					};
+					return Math.max.apply(null, suits);
+				}
+			});
+		
+			it('should do nothing if input is empty', function() {
+				var inputs = {};
+				
+				deck.stack(inputs);
+				
+				expect(deck.cards).toEqual(unstacked);
+			});
+			
+			it('should ensure the first 13 cards contain at least the minimum specified points', function() {
+				var inputs = {
+					min: 24
+				};
+				
+				deck.stack(inputs);
+				
+				var points = getPoints();
+				
+				expect(Math.ceil(points)).toEqual(Math.floor(points));
+				expect(points).toBeGreaterThan(23);
+			});
+			
+			it('should ensure the first 13 cards contain at most the maximum specified points', function() {
+				var inputs = {
+					max: 3
+				};
+				
+				deck.stack(inputs);
+				
+				var points = getPoints();
+				
+				expect(Math.ceil(points)).toEqual(Math.floor(points));
+				expect(points).toBeLessThan(4);
+			});
+			
+			it('should ensure the first 13 cards fall within the specified point range', function() {
+				var inputs = {
+					min: 27,
+					max: 29
+				};
+				
+				deck.stack(inputs);
+				
+				var points = getPoints();
+				
+				expect(Math.ceil(points)).toEqual(Math.floor(points));
+				expect(points).toBeGreaterThan(26);
+				expect(points).toBeLessThan(30);
+			});
+			
+			it('should ensure the first 13 cards contain a suit with the specified length', function() {
+				var inputs = {
+					firstSuitLength : 7
+				};
+				
+				deck.stack(inputs);
+				
+				var suitLength = getSuitLength();
+				
+				expect(suitLength).toEqual(7);
+			});
+			
+			it('should do all of the above at once', function() {
+				var inputs = {
+					min: 20,
+					max: 23,
+					firstSuitLength: 4
+				};
+				
+				deck.stack(inputs);
+				
+				var points = getPoints();
+				var suitLength = getSuitLength();
+							
+				expect(Math.ceil(points)).toEqual(Math.floor(points));
+				expect(points).toBeGreaterThan(19);
+				expect(points).toBeLessThan(24);
+				expect(suitLength).toEqual(4);
 			});
 		});
 		
