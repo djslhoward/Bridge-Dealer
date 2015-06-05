@@ -5,7 +5,7 @@
 		<title>Bridge Hand Automatic Dealer</title>
 		
 		<script type="text/ng-template" id="hands.html"> 
-			<div id="hands" class="{{position.pos}}" data-ng-repeat="position in vm.positions">
+			<div id="hands" class="{{position.pos}}" data-ng-repeat="position in vm.positions">		
 				<div>
 					<span class="Spades">&spades;</span>
 					<span data-ng-if="position.hand.suits.Spades.length > 0" data-ng-repeat="card in position.hand.suits.Spades">{{card.rank}}</span>
@@ -45,16 +45,25 @@
 			<div id="view" data-ng-controller="dealer as vm">
 				<div ng-include="'hands.html'" data-ng-cloak></div>
 				<div id="input">	
-					<div>
-						<button data-ng-click="vm.saveData(); vm.dealCards()">Deal Hand</button> 
-						<a href="#printable"><button data-ng-click="vm.saveData()">Generate Hands</button></a>
-					</div>	
+					<div> 
+						Hand: 
+						<select data-ng-model="vm.stackedHand"> 
+							<option value="North">North</option>
+							<option value="South">South</option>
+							<option value="East">East</option>
+							<option value="West">West</option>
+						</select> 
+					</div>
 					<div>
 						Point range: <input type="number" min="0" max="37" data-ng-model="vm.minPoints"> - <input type="number" min="0" max="37" data-ng-model="vm.maxPoints">
 					</div>			
 					<div>
 						Longest suit length: <input type="number" min="4" max="13" data-ng-model="vm.firstSuitLength">
 					</div>		
+					<div>
+						<button data-ng-click="vm.saveData(); vm.dealCards()">Deal Hand</button> 
+						<a href="#printable"><button data-ng-click="vm.saveData()">Generate Hands</button></a>
+					</div>	
 				</div>
 			</div>
 		</script>

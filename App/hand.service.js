@@ -19,7 +19,7 @@
         function Hand(deck) {
             this.cards = deck.cards.slice(0, 13);
             this.suits = {};
-			this.points;
+			this.points = 0;
 			this.arrange = arrange;
 					
 			function arrange() {
@@ -58,20 +58,7 @@
 				suits.Clubs = [];
 				for(var i = 0; i < 13; i++) {			
 					var card = cards[i];	
-					switch (card.suit) {
-						case 'Spades': 
-							suits.Spades.push(card);
-							break;
-						case 'Hearts':
-							suits.Hearts.push(card);
-							break;
-						case 'Diamonds':
-							suits.Diamonds.push(card);
-							break;
-						case 'Clubs':
-							suits.Clubs.push(card);
-							break;
-					}
+					suits[card.suit].push(card);
 				}
 			}
         }

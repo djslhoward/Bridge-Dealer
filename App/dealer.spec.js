@@ -33,42 +33,54 @@ describe('Dealer Controller', function() {
 				shuffle: jasmine.createSpy(),
 				stack: jasmine.createSpy(),
 				deal: jasmine.createSpy().and.returnValue({
-					north: {
-						suits: {
-							Spades: [48, 46, 45, 44],
-							Hearts: [34],
-							Diamonds: [22, 18, 16],
-							Clubs: [13, 10, 7, 5, 2]
+					North: { 
+						hand: {
+							suits: {
+								Spades: [48, 46, 45, 44],
+								Hearts: [34],
+								Diamonds: [22, 18, 16],
+								Clubs: [13, 10, 7, 5, 2]
+							},
+							cards: [16, 34, 18, 44, 48, 46, 7, 45, 2, 13, 5, 10, 22],
+							points: 5
 						},
-						cards: [16, 34, 18, 44, 48, 46, 7, 45, 2, 13, 5, 10, 22],
-						points: 5
+						pos: 'North'
 					},
-					south: {
-						suits: {
-							Spades: [],
-							Hearts: [],
-							Diamonds: [],
-							Clubs: []
+					South: {
+						hand: {
+							suits: {
+								Spades: [],
+								Hearts: [],
+								Diamonds: [],
+								Clubs: []
+							},
+							cards: [28, 25, 20, 51, 52, 8, 37, 24, 19, 27, 36, 15, 40]
 						},
-						cards: [28, 25, 20, 51, 52, 8, 37, 24, 19, 27, 36, 15, 40],
+						pos: 'South'
 					},
-					east: {
-						suits: {
-							Spades: [],
-							Hearts: [],
-							Diamonds: [],
-							Clubs: []
+					East: {
+						hand: {
+							suits: {
+								Spades: [],
+								Hearts: [],
+								Diamonds: [],
+								Clubs: []
+							},
+							cards: [32, 50, 49, 30, 47, 43, 29, 6, 39, 35, 1, 4, 14]
 						},
-						cards: [32, 50, 49, 30, 47, 43, 29, 6, 39, 35, 1, 4, 14],
+						pos: 'East'
 					},
-					west: {
-						suits: {
-							Spades: [],
-							Hearts: [],
-							Diamonds: [],
-							Clubs: []
+					West: {
+						hand: {
+							suits: {
+								Spades: [],
+								Hearts: [],
+								Diamonds: [],
+								Clubs: []
+							},
+							cards: [33, 42, 9, 26, 12, 31, 41, 3, 23, 38, 17, 21, 11]
 						},
-						cards: [33, 42, 9, 26, 12, 31, 41, 3, 23, 38, 17, 21, 11],
+						pos: 'West'
 					}
 				})
 			});

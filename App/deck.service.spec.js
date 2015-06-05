@@ -16,7 +16,7 @@ describe('Deck Factory', function() {
 	});
 	
 	describe('Deck objects', function() {
-		var deck;
+		var deck, cards;
 		
 		beforeEach(function() {		
 			deck = new deckService.Deck();
@@ -31,12 +31,10 @@ describe('Deck Factory', function() {
 		});
 		
 		describe('shuffle function', function() {
-			it('should randomise the order of the cards', function() {				
-				var unshuffled = deck.cards;	
-				
+			it('should randomise the order of the cards', function() {								
 				deck.shuffle();
 				
-				expect(deck.cards).not.toEqual(unshuffled);
+				expect(deck.cards).not.toEqual(new deckService.Deck().cards);
 				expect(deck.cards.length).toBe(52);
 			});
 		});
@@ -177,10 +175,10 @@ describe('Deck Factory', function() {
 			});
 		
 			it('should deal four hands of thirteen cards', function() {				
-				expect(hands.north.cards.length).toBe(13);
-				expect(hands.south.cards.length).toBe(13);
-				expect(hands.east.cards.length).toBe(13);
-				expect(hands.west.cards.length).toBe(13);
+				expect(hands.North.hand.cards.length).toBe(13);
+				expect(hands.South.hand.cards.length).toBe(13);
+				expect(hands.East.hand.cards.length).toBe(13);
+				expect(hands.West.hand.cards.length).toBe(13);
 			});
 			
 			it('should arrange each hand', function() {

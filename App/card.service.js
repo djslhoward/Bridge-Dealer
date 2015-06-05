@@ -15,80 +15,55 @@
 
         return service;
 			
-        function Card(rank, suit) {			
+        function Card(rank, suit) {		
+			var ranks = ['A', 2, 3, 4, 5, 6, 7, 8, 9, 10, 'J', 'Q', 'K'];
 			var suits = ['Clubs', 'Diamonds', 'Hearts', 'Spades'];
+			var honours = ['J', 'Q', 'K', 'A'];
+			var card;
 			
 			if (typeof suit === 'undefined') {
-				if(isNaN(rank)) {
-					throw 'Input must be a number';
-				}
-			
-				if (Math.floor(rank) !== Math.ceil(rank)) {
-					throw 'Input must be an integer';
-				}
-			
-				if (rank < 1 || rank > 52) {
-					throw 'Input must be between 1 and 52';
-				}
-			
-				suit = suits[Math.ceil(rank / 13) - 1];
-				rank = rank % 13;								
-				switch (rank) {
-					case 10:
-						rank = 'J';
-						break;
-					case 11:
-						rank = 'Q';
-						break;
-					case 12:
-						rank = 'K';
-						break;
-					case 0:
-						rank = 'A';
-						break;
-					default:
-						rank += 1;
-						break;
-				}				
+				checkForErrors(rank);
+				card = getCard(rank);
 			} else { 
-				if(isNaN(rank)) {
-					if (rank !== 'J' && rank !== 'Q' && rank !== 'K' && rank !== 'A') {
-						throw 'Rank must be a number or an honour';
-					}
-				} else if (Math.floor(rank) !== Math.ceil(rank)) {
-					throw 'Rank must be an integer or an honour';
-				}
-			
-				if (rank < 2 || rank > 10) {
-					throw 'Rank must be either an honour or between 2 and 10';
-				} 
-				if (suits.indexOf(suit) === -1) {
-					throw 'Suit does not exist';
-				}
+				card = { rank: rank, suit: suit };	
+				checkForErrors(card);
 			}
 			
-			var points;
-			switch (rank) {
-				case 'J':
-					points = 1;
-					break;
-				case 'Q':
-					points = 2;
-					break;
-				case 'K':
-					points = 3;
-					break;
-				case 'A':
-					points = 4;
-					break;
-				default:
-					points = 0;
-					break;
-			}
-			
-			this.rank = rank;
-			this.suit = suit;
+			var points = honours.indexOf(card.rank) + 1 || 0;
+	
+			this.rank = card.rank;
+			this.suit = card.suit;
 			this.points = points;
+			
+			function getCard(rank) {					
+				suit = suits[Math.ceil(rank / 13) - 1];
+				rank = rank % 13;
+				rank = ranks[rank];
+				
+				return { rank: rank, suit: suit };
+			}
+			
+			function checkForErrors(input) {	
+				var message = 'Invalid input: ' + input;
+				
+				var rank = input.rank || input;
+				var suit = input.suit || null;
+				
+				var minRank = 1;
+				var maxRank = 52; 
+				
+				if (suit) {
+					suits.indexOf(suit) < 0 ? throwException(input) : minRank = 2, maxRank = 10;				
+				}
+				
+				if(isNaN(rank)) {
+					if (honours.indexOf(rank) < 0) {
+						throw message;
+					}
+				} else if (Math.floor(rank) !== Math.ceil(rank) || rank < minRank || rank > maxRank) {
+					throw message;
+				}
+			}
 		}			
     }
 })();
